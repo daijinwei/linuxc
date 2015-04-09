@@ -24,6 +24,8 @@ struct foo{
 	int a,b,c,d;
 };
 
+struct foo foo = {1,2,3,4};
+
 void printf_foo(const char *s, const struct foo *fp)
 {
 	printf(s);
@@ -36,7 +38,7 @@ void printf_foo(const char *s, const struct foo *fp)
 
 void *thread_func1()
 {
-	struct foo foo = {1,2,3,4};
+//	struct foo foo = {1,2,3,4};
 	printf_foo("thread 1:\n", &foo);
 	pthread_exit((void *)&foo);
 }
