@@ -1,0 +1,2 @@
+gcc fork_count.c -o fork_count -lpthread
+
