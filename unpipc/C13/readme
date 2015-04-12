@@ -1,2 +1,6 @@
 gcc shmcreate.c -o shmcreate -lrt
 
+
+./shmcreate daijinwei 123
+./shm_write daijinwei 
+./shm_read  daijinwei

@@ -23,22 +23,22 @@ int main(int argc, char *argv[])
     char *ptr;
     int i;
     struct stat stat;
-    int length = 100;
+    //int length = 100;
 
-    if((fd = shm_open(SHM_FILE, O_RDWR | O_CREAT, 0775)) < 0){
+    if((fd = shm_open(argv[1], O_RDWR | O_CREAT, 0775)) < 0){
         printf("open memory failed\n");
         return 0;
     }
 
     fstat(fd, &stat);
-    //ptr = mmap(NULL, stat.st_size, PROT_READ | PROT_WRITE, MAP_SHARED, fd, 0);
-    ptr = mmap(NULL, length, PROT_READ | PROT_WRITE, MAP_SHARED, fd, 0);
+    ptr = mmap(NULL, stat.st_size, PROT_READ | PROT_WRITE, MAP_SHARED, fd, 0);
+    //ptr = mmap(NULL, length, PROT_READ | PROT_WRITE, MAP_SHARED, fd, 0);
     close(fd);
     if(ptr == NULL){
         printf("mmap file failed\n");
         return 0;
     }
-    for(i = 0; i < length; i++){
+    for(i = 0; i < stat.st_size; i++){
        *ptr++ = i % 256; 
     }
     exit(0);
