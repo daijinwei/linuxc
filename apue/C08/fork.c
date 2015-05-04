@@ -28,6 +28,7 @@ int main(){
     }else if(pid == 0){
         glob++;
         var++;
+        execl("/bin/bash", "bash", "-cx", "ls", NULL);
     }else{
         sleep(2);
     }
