@@ -11,6 +11,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>     // For fork
+#include <errno.h>
 
 #define BUFFER_SIZE     512
 
@@ -37,7 +38,20 @@ void client(int readfd, int writefd){
 }
 
 void server(int readfd, int writefd){
+    int fd;
+    sszie_t n;
+    char buffer[BUFFER_SIZE];
 
+    /* Read pathname from IPC channel */
+    if((n = read(readfd, buffer, BUFFER_SIZE)) <= 0){
+        printf("Server read file path failed\n");
+        exit(EXIT_FAILURE);
+    }
+    buffer[n] = '\0';
+
+    if((fd = open(buffer, O_RDONLY)) < 0){
+        sprintf(buffer + n,sizeof(buffer) -n, ": Can't open, %s\n", strerror(errno));   
+    }
 }
 
 int main()
