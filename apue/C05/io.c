@@ -11,7 +11,7 @@
 int main(int argc, char *argv[])
 {
     int n;
-    while((n = fgetc(stdin))){
+    while((n = getc(stdin))){
         if(putc(n, stdout) == EOF){
             printf("putc error\n");
         }
