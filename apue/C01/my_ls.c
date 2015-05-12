@@ -27,5 +27,5 @@ int main(int argc, char *argv[])
         printf("%s\n", dirent->d_name);
     }
     closedir(dir);
-    return 0;
+    exit(0);
 }
