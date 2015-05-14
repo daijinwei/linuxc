@@ -35,7 +35,6 @@ int min(int x, int y){
 
 void *produce(void *arg){
     if(0 == pthread_mutex_lock(&shared.mutex)){
-        printf("lock ok\n");
         if(shared.index > nitems){
             if(0 != pthread_mutex_unlock(&shared.mutex)){
                 printf("unlock failed\n");
@@ -44,7 +43,6 @@ void *produce(void *arg){
         shared.buffer[shared.index] = shared.nval;
         shared.index++;
         shared.nval++;
-        printf("shared.nval = %d\n", shared.nval);
         if(0 != pthread_mutex_unlock(&shared.mutex)){
             printf("unlock failed\n");
         }
