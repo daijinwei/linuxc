@@ -96,9 +96,9 @@ int main(int argc, char *argv[])
 
     // start cosume thread
     if(0 != pthread_create(&tid_consume, NULL, consume, NULL)){
-            printf("create consume threads [%d] failed\n", i);
+            printf("create consume threads failed\n");
     }
     if(0 != pthread_join(tid_consume,NULL)){
-        printf("join consume threads [%d] failed\n", i);
+        printf("join consume threads failed\n");
     }
 }

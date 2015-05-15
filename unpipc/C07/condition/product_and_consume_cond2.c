@@ -43,6 +43,7 @@ int min(int x, int y){
 }
 
 void *produce(void *arg){
+    int dosignal;
     if(0 == pthread_mutex_lock(&put.mutex)){
         if(put.index > nitems){
             if(0 != pthread_mutex_unlock(&put.mutex)){
@@ -58,13 +59,13 @@ void *produce(void *arg){
 
         // cond
         if(0 == pthread_mutex_lock(&nready.mutex)){
-            if(nready.nready == 0){
-                pthread_cond_signal(&nready.cond);
-            }
+            dosignal = (nready.nready == 0);
             nready.nready++;
             if(0 != pthread_mutex_lock(&nready.mutex)){
                  printf("unlock failed\n");
             }
+            if(dosignal)
+                pthread_cond_signal(&nready.cond);
         }
         *((int *)arg) += 1;
     }else{
@@ -106,7 +107,7 @@ int main(int argc, char *argv[])
     nthreads = min(atoi(argv[2]), MAX_THREADS);
     nitems = min(atoi(argv[1]), BUFFER_SIZE);
 
-    if(0 != pthread_setconcurrency(nthreads + 1)){
+    if(0 != pthread_setconcurrency(nthreads)){
         printf("setconcurrency [%d] failed\n", i);
         exit(EXIT_FAILURE);
     }
@@ -117,10 +118,6 @@ int main(int argc, char *argv[])
             printf("create threads [%d] failed\n", i);
         }
     }
-    // start cosume thread
-    if(0 != pthread_create(&tid_consume, NULL, consume, NULL)){
-            printf("create consume threads failed\n");
-    }
 
     for(i = 0; i < nthreads; ++i){
         if(0 != pthread_join(tid_produce[i],NULL)){
@@ -129,7 +126,11 @@ int main(int argc, char *argv[])
         printf("count[%d] = %d\n", i, count[i]);
     }
 
+    // start cosume thread
+    if(0 != pthread_create(&tid_consume, NULL, consume, NULL)){
+            printf("create consume threads [%d] failed\n", i);
+    }
     if(0 != pthread_join(tid_consume,NULL)){
-        printf("join consume threads failed\n");
+        printf("join consume threads [%d] failed\n", i);
     }
 }
