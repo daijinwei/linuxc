@@ -40,6 +40,7 @@ int main(int argc, char* argv[])
         if(connected_fd = accept(listen_fd, NULL, NULL))  {
 		    printf("caccept failed\n");
 		    exit(EXIT_FAILURE);
+
         }  
     }
 	return 0;
