@@ -46,6 +46,7 @@ int main(int argc, char* argv[])
 		}
 	}
 	
+
 	if(n < 0){
 		exit(EXIT_FAILURE);
 	}
