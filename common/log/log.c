@@ -11,13 +11,15 @@ static  const char *levels[] = {"NONE","FATAL","ERROR","WARNING","INFO","DEBUG",
 
 void get_now_time(char *buf_time){
     struct tm result;
-    struct tm *local;
+    struct tm *local = NULL;
     time_t now_time = time(NULL);
 
     if (NULL == buf_time) return;
 
     local = localtime_r(&now_time, &result);
-    strftime(buf_time,BUF_TIME_SIZE,"%Y-%m-%d %H:%M:%S", local);
+    if(NULL != local) {
+        strftime(buf_time,BUF_TIME_SIZE,"%Y-%m-%d %H:%M:%S", &result);
+    }
 }
 
 void write_to_log(int level, const char *file, int line, const char *message, ...){
