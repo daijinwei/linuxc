@@ -38,6 +38,6 @@ void write_to_log(int level, const char *file, int line, const char *message, ..
     get_now_time(buf_time);
 
     if (-1 != ret) {
-        fprintf(stdout, "[%s][%s][file: %s | line: %d | pid: %u] %s", levels[level], buf_time, file, line, getpid(),buf);
+        fprintf(stdout, "[%s] [%s] [file: %s | line: %d | pid: %u] %s", buf_time, levels[level], file, line, getpid(),buf);
     }
 }
