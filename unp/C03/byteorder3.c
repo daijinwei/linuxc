@@ -1,6 +1,6 @@
 #include <stdio.h>
 
-// Judge big endian or Litel endian
+// Judge big-endian or little-endian
 int main()
 {
     // s, c share memory
@@ -10,10 +10,10 @@ int main()
     } un;       
 
     un.s = 0x5102;
-    if ((0x02  == un.c[0]) && (0x51 == un.c[1])) {
-        printf("Litle endian\n"); 
-    } else if ((0x51  == un.c[0]) && (0x01 == un.c[1])) {
-        printf("Big endian\n"); 
+    if ((0x02 == un.c[0]) && (0x51 == un.c[1])) {
+        printf("little-endian\n"); 
+    } else if ((0x51 == un.c[0]) && (0x01 == un.c[1])) {
+        printf("big-endian\n"); 
     }else{
         printf("Unkown\n"); 
     }
