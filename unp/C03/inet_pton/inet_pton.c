@@ -15,6 +15,7 @@
 int 
 my_inet_pton(int family, const char *strptr, void *addrptr)
 {
+    if ((NULL == strptr) || (NULL == addrptr)) return 0;
     if (AF_INET == family){
         struct in_addr inet_val;
 
