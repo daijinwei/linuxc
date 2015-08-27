@@ -31,6 +31,9 @@ my_inet_pton(int family, const char *strptr, void *addrptr)
 
 int main(int argc, char *argv[])
 {
+    if (2 != argc) {
+        printf("Usage: ./a.out <ip address>\n"); 
+    }
     char buf[64];
     bzero(buf, sizeof(buf));
     if (0 >= my_inet_pton(AF_INET, argv[1], (void *)buf)){

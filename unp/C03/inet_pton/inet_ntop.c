@@ -59,6 +59,10 @@ my_inet_ntop(int family, const void *addrptr, char *strptr, size_t len)
 
 int main(int argc, char *argv[])
 {
+    if (2 != argc) {  
+        printf("Usage: ./a.out <ip address>\n");
+    }   
+
     char numeric_buf[64];
     char presentation_buf[64];
     const char *p = NULL;
