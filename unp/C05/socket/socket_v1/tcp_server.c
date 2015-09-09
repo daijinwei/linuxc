@@ -1,22 +1,3 @@
-/*
- * =====================================================================================
- *
- *       Filename:  tcp_server.c
- *
- *    Description:  
- *
- *        Version:  1.0
- *        Created:  12/29/2014 05:47:28 PM
- *       Revision:  none
- *       Compiler:  gcc
- *
- *         Author:  YOUR NAME (), 
- *        Company:  
- *
- * =====================================================================================
- */
-
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -38,14 +19,14 @@ void str_echo(SOCKETFD socketfd)
 {
 	char buf[BUF_SIZE];
 	int n;
+again:
 	while((n = read(socketfd, buf, sizeof(buf))) > 0){
 		n = write(socketfd, buf, n);	
-		if (n < 0) {
-			handle_error("write no  message");
-		}
 	}
-
-	if (n < 0 ) {
+    if (n < 0 && errno == EINTR) {
+        goto again ;
+    }
+	else if (n < 0 ) {
 		handle_error("read message failed");
 	}
 }
@@ -53,7 +34,7 @@ void str_echo(SOCKETFD socketfd)
 int main()
 {
 	int	listen_fd, connect_fd;
-	int port = 8080;	
+	int port = 9877;	
 	pid_t	pid;
 	socklen_t	clientlen;
 	struct sockaddr_in 	client_addr, server_addr;

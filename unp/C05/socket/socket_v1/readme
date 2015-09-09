@@ -1,0 +1,3 @@
+Implement client and server
+Server sing the fork(), no capture the SIGCHILD
+client blocking to the fgets(), write(), readline()

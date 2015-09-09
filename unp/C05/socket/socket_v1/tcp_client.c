@@ -1,22 +1,3 @@
-/*
- * =====================================================================================
- *
- *       Filename:  tcp_server.c
- *
- *    Description:  
- *
- *        Version:  1.0
- *        Created:  12/29/2014 05:47:28 PM
- *       Revision:  none
- *       Compiler:  gcc
- *
- *         Author:  YOUR NAME (), 
- *        Company:  
- *
- * =====================================================================================
- */
-
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -62,6 +43,7 @@ void str_cli(FILE *fp, SOCKETFD socketfd)
 
 int main(int argc, char *argv[])
 {
+    int ret;
 	if (3 != argc) {
 		handle_error("Usage: tcp_client <IPaddress> <port>");
 	}
@@ -80,7 +62,13 @@ int main(int argc, char *argv[])
 	server_addr.sin_family = AF_INET;
 	server_addr.sin_port = htons(server_port);
 
-	inet_pton(AF_INET, argv[1] ,&server_addr.sin_addr);
+    if(0 >=(ret = inet_pton(AF_INET, argv[1] ,&server_addr.sin_addr))){
+        if (0== ret )
+		    handle_error("the  presentation address is  not right\n");
+        if(-1 == ret){
+		    handle_error("covert error\n");
+        }
+    }
 	
 	if(-1 == connect(sockfd, (const struct sockaddr*)&server_addr, sizeof(server_addr))){
 		handle_error("connect socket failed\n");
