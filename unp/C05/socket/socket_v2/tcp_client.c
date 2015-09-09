@@ -71,6 +71,7 @@ int main(int argc, char *argv[])
 	socklen_t	clientlen;
 	struct sockaddr_in server_addr;
 
+    // Create 5 connect
 	for(i = 0; i < 5; i++) {
 		sockfd[i] = socket(AF_INET, SOCK_STREAM, 0);
 		if (-1 == sockfd[i]) {

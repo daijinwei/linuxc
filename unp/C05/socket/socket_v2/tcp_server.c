@@ -1,22 +1,3 @@
-/*
- * =====================================================================================
- *
- *       Filename:  tcp_server.c
- *
- *    Description:  
- *
- *        Version:  1.0
- *        Created:  12/29/2014 05:47:28 PM
- *       Revision:  none
- *       Compiler:  gcc
- *
- *         Author:  YOUR NAME (), 
- *        Company:  
- *
- * =====================================================================================
- */
-
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -40,21 +21,21 @@ typedef int SOCKETFD;
 
 void str_echo(SOCKETFD socketfd)
 {
-	char buf[BUF_SIZE];
-	int n;
-	while((n = read(socketfd, buf, sizeof(buf))) > 0){
-		n = write(socketfd, buf, n);	
-		if (n < 0) {
-			handle_error("write no  message");
-		}
-	}
-
-	if (n < 0 ) {
-		handle_error("read message failed");
-	}
+    char buf[BUF_SIZE];
+    int n;
+again:
+    while((n = read(socketfd, buf, sizeof(buf))) > 0){
+        n = write(socketfd, buf, n);
+    }
+    if (n < 0 && errno == EINTR) {
+       goto again ;
+    }
+    else if (n < 0 ) {
+        handle_error("read message failed");
+    }
 }
 
-void sig_chld(int signo){
+void sig_child(int signo){
 	pid_t	pid;
 	int		stat;
 
@@ -89,7 +70,7 @@ int main()
 		handle_error("listen socket failed\n");
 	}
 
-	signal(SIGCHLD, sig_chld);
+	signal(SIGCHLD, sig_child);
 	for (;;) {
 		clientlen = sizeof(client_addr);
 		if ((connect_fd = accept(listen_fd, (struct sockaddr*)&client_addr, &clientlen)) < 0){
