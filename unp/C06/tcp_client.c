@@ -38,11 +38,11 @@ void str_cli(FILE *fp, SOCKETFD socketfd)
         FD_SET(socketfd, &rset);
         maxfd = fileno(fp) >  socketfd?fileno(fp):socketfd;
         ret = select(maxfd + 1, &rset, NULL, NULL, NULL);
-        if(-1 < ret) {
+        if(-1 == ret) { // Recvie the RST, set errno
 			handle_error("Select error");
         }
 
-        if(0 == ret) {
+        if(0 == ret) {  // Recive FIN
 			continue;
         }
 
