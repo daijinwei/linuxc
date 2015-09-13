@@ -1,22 +1,3 @@
-/*
- * =====================================================================================
- *
- *       Filename:  tcp_server.c
- *
- *    Description:  
- *
- *        Version:  1.0
- *        Created:  12/29/2014 05:47:28 PM
- *       Revision:  none
- *       Compiler:  gcc
- *
- *         Author:  YOUR NAME (), 
- *        Company:  
- *
- * =====================================================================================
- */
-
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
