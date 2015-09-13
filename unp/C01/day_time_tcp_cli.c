@@ -18,7 +18,7 @@ int main(int argc, char* argv[])
 	struct sockaddr_in server_addr;
 
 	if (2 != argc){
-                LOG(INFO, "Usage: ./day_time_tcp_cli <IPaddress>\n");
+        LOG(INFO, "Usage: ./day_time_tcp_cli <IPaddress>\n");
 		exit(EXIT_FAILURE);
 	}
 
