@@ -67,7 +67,7 @@ void str_cli(FILE *fp, SOCKETFD socketfd)
         }
 
         if(FD_ISSET(fileno(fp), &rset)){
-	        if( 0 == ( n = (read(fileno(fp), buf, BUF_SIZE)))) {    // should use readn
+	        if( 0 == ( n = (read(fileno(fp), buf, BUF_SIZE)))) {    // should use readn, operate the buf
                 stdineof = 1; 
                 if(-1 == shutdown(socketfd, SHUT_WR)){  // Send FIN
                     printf("Send FIN failed\n"); 
