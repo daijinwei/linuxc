@@ -21,7 +21,7 @@
 
 typedef int SOCKETFD;
 
-// The process is blocking the fget(), the client can know when the server send FIN, RST.
+// The process usr select and shutdown to deal with mass of data.
 void str_cli(FILE *fp, SOCKETFD socketfd)
 {
 	char buf[BUF_SIZE];
@@ -60,15 +60,14 @@ void str_cli(FILE *fp, SOCKETFD socketfd)
                 }
 		    }
 
-            printf("buf: %s", buf);
-            if(write(stdout, buf, n) < 0) {
+            if(write(fileno(stdout), buf, n) < 0) { // stdout must convert to fileno(stdout)
                 printf("dispay error\n"); 
             }
 		    printf("~~~~~~* Display the message *~~~~~~\n");
         }
 
         if(FD_ISSET(fileno(fp), &rset)){
-	        if( 0 == ( n = (read(fileno(fp), buf, BUF_SIZE)))) {
+	        if( 0 == ( n = (read(fileno(fp), buf, BUF_SIZE)))) {    // should use readn
                 stdineof = 1; 
                 if(-1 == shutdown(socketfd, SHUT_WR)){  // Send FIN
                     printf("Send FIN failed\n"); 
