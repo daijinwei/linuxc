@@ -17,7 +17,8 @@
 
 int main(int argc, char *argv[])
 {
-    char *hostname = NULL, *addr = NULL;
+    char *hostname = NULL;
+    char *addr = NULL;
     char **pptr = NULL;
     char str[INET_ADDRSTRLEN];
     if (argc < 2){
@@ -37,12 +38,16 @@ int main(int argc, char *argv[])
 
     switch (hptr->h_addrtype) {
         case AF_INET: 
-                pptr = hptr->h_addr_list;
-                for ( ; NULL != *pptr; pptr++){
-                    addr = inet_ntop(hptr->h_addrtype, *pptr, str, sizeof(str));
+            pptr = hptr->h_addr_list;
+            for ( ; NULL != *pptr; pptr++){
+                addr = inet_ntop(hptr->h_addrtype, *pptr, str, sizeof(str));
+                if (NULL != addr) {
+                    printf("address: %s\n", addr);
                 }
+            }
             break;
         default: 
+            printf("Unkown hostname\n");
             break;
     }
 }
