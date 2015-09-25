@@ -20,6 +20,7 @@ int tcp_listen(const char *host, const char *serv, socklen_t *addrlenp)
 {
     int listenfd, n;
     int backlog = 1024;
+    const int on = 1;
     struct addrinfo hints, *res, *ressave;
     bzero(&hints, sizeof(struct addrinfo));
     hints.ai_flags   = AI_PASSIVE;
@@ -27,7 +28,8 @@ int tcp_listen(const char *host, const char *serv, socklen_t *addrlenp)
     hints.ai_socktype = SOCK_STREAM;
 
     if ( 0!= (n = getaddrinfo(host, serv, &hints, &res))){
-        handle_error("tcp_listen error for: %s %s, Error:%s\n", host, serv, gai_strerror(n));  
+        //handle_error("tcp_listen error for: %s %s, Error:%s\n", host, serv, gai_strerror(n));  
+        handle_error("tcp_listen error");
     }
 
     ressave = res;
@@ -44,12 +46,19 @@ int tcp_listen(const char *host, const char *serv, socklen_t *addrlenp)
         }
         close(listenfd);
     }
-    listen(listenfd, backlog);
-
+    if ( 0 != listen(listenfd, backlog)) {
+        handle_error("listen failed\n");  
+    }
+    
+    freeaddrinfo(ressave);
 }
 
 int main(int argc, char *argv[])
 {
-    //const char *host = "www.baidu.com";
-    tcp_listen("linux", "daytime", );
+    int ret;
+    const char *host = "www.baidu.com";
+    socklen_t addrlenp;
+    addrlenp = sizeof(struct sockaddr);
+    ret = tcp_listen(host, "daytime", &addrlenp);
+    return 0;
 }
