@@ -1,11 +1,5 @@
 #include "tcp_listen.h"
-
-#define LISTEN_BACKLOG	50
-#define handle_error(msg)	\
-	do{ 					\
-		perror(msg); 		\
-		exit(EXIT_FAILURE);	\
-	}while(0)
+#include "log.h"
 
 int tcp_listen(const char *host, const char *serv, socklen_t *addrlenp)
 {
@@ -20,8 +14,7 @@ int tcp_listen(const char *host, const char *serv, socklen_t *addrlenp)
     hints.ai_socktype = SOCK_STREAM;
 
     if ( 0!= (n = getaddrinfo(host, serv, &hints, &res))){
-        //handle_error("tcp_listen error for: %s %s, Error:%s\n", host, serv, gai_strerror(n));  
-        handle_error("tcp_listen error");
+        LOG(ERROR, "tcp_listen %s %s failed, Error: %s\n", host, serv, gai_strerror(n));
     }
 
     ressave = res;
@@ -39,8 +32,9 @@ int tcp_listen(const char *host, const char *serv, socklen_t *addrlenp)
         close(listenfd);
     }
     if ( 0 != listen(listenfd, backlog)) {
-        handle_error("listen failed\n");  
+        LOG(ERROR, "listen failed\n");
     }
+
     if (NULL != addrlenp){
         *addrlenp = res->ai_addrlen ;
     }

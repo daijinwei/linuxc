@@ -22,6 +22,11 @@ int main(int argc, char* argv[])
     const char *message = NULL;
 	struct sockaddr_in server_addr, client_addr;
 
+    if (2 != argc) {
+        LOG(INFO, "Usage: ./day_time_serv <service>\n");
+        exit(EXIT_FAILURE);
+    }
+
     sockfd = tcp_listen(NULL, argv[1], NULL);
     if (0 > sockfd) {
         LOG(ERROR, "Seting listening socket failed\n");
@@ -31,7 +36,7 @@ int main(int argc, char* argv[])
         socklen_t len = sizeof(struct sockaddr);
         if( -1 == (connect_fd = accept(sockfd, (struct sockaddr*) &client_addr, &len))){
             message = strerror(errno);
-            LOG(ERROR, "Connect  failed, %s\n", message);
+            LOG(ERROR, "Accept failed, %s\n", message);
             exit(EXIT_FAILURE);
         }
         printf("connection from %s: port %d\n", inet_ntop(AF_INET, &client_addr, buffer, sizeof(buffer)), ntohs(client_addr.sin_port));
