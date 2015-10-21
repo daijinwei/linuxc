@@ -71,6 +71,7 @@ int main(int argc, char *argv[])
     }
 	
 	if(-1 == connect(sockfd, (const struct sockaddr*)&server_addr, sizeof(server_addr))){
+        close(sockfd);
 		handle_error("connect socket failed\n");
 	}
 
