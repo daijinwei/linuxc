@@ -85,6 +85,7 @@ int main(int argc, char *argv[])
 		inet_pton(AF_INET, argv[1] ,&server_addr.sin_addr);
 	
 		if(-1 == connect(sockfd[i], (const struct sockaddr*)&server_addr, sizeof(server_addr))){
+            close(sockfd[i]);
 			handle_error("connect socket failed\n");
 		}
 
