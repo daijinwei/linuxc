@@ -36,9 +36,12 @@ connect_timeo(int sockfd, const struct sockaddr *addr, socklen_t len, int timeou
     typedef void (*sighandler_t)(int);
     sighandler_t    sigfunc;
 
-    sigfunc = signal(SIGALRM, connect_alarm);
+    if((sigfunc = signal(SIGALRM, connect_alarm)) != SIG_ERR) {
+        handle_msg("Install the signal func connect_alarm is failed"); 
+    }
+
     if(0 != alarm(timeout)){
-        handle_error("The alarm is allready set"); 
+        handle_msg("The alarm is allready set"); 
     }
 
 	if(-1 == (n = connect(sockfd, addr, len))){

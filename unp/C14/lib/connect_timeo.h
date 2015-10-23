@@ -21,6 +21,11 @@
 	}while(0)
 
 
+#define handle_msg(msg)	\
+	do{ 					\
+		printf(msg); 		\
+	}while(0)
+
 typedef int SOCKETFD;
 
 void str_cli(FILE *fp, SOCKETFD socketfd);
