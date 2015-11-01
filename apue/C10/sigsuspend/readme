@@ -1,0 +1,3 @@
+When sigsupend capture a signal which can exit the process, sigsupend let the process pausse.
+When sigsupend capture a signal which can not exit the process, sigsupend return.
+
