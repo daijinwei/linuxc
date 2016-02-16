@@ -15,6 +15,8 @@
 #define DEBUG   5
 #define TRACE   6
 
+// TODO: log multi-threads safe
+
 /**
  * Get the now time, format year-month-day hours:min:seconds,
  * for example, 2010-03-14 21:59:23.
