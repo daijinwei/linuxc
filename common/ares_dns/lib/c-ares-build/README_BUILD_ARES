@@ -1,0 +1,5 @@
+1. static compile
+
+./configure --includedir=/home/david/myspace/linuxc/common/ares_dns/lib/c-ares-build/include --libdir=/home/david/myspace/linuxc/common/ares_dns/lib/c-ares-build/lib  --enable-static
+
+2. dynamic compile
